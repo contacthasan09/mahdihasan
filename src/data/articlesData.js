@@ -1,0 +1,32 @@
+export const articlesData = [
+  {
+    id: 1,
+    title: 'Full-Funnel Marketing Explained: From Clicks to Conversions',
+    excerpt: 'Understand how a complete funnel strategy turns traffic into leads and customers—and why it matters for your business.',
+    date: 'January 24, 2026',
+    readTime: '5 min read',
+    category: 'Strategy',
+    image: '/images/blog-funnel.jpg',
+    slug: 'full-funnel-marketing-explained',
+  },
+  {
+    id: 2,
+    title: 'Google Ads vs Meta Ads: Which Is Right for Your Business?',
+    excerpt: 'A practical comparison to help you choose the right ad platform based on your goals, budget, and industry.',
+    date: 'January 24, 2026',
+    readTime: '7 min read',
+    category: 'Comparison',
+    image: '/images/blog-comparison.jpg',
+    slug: 'google-ads-vs-meta-ads',
+  },
+  {
+    id: 3,
+    title: 'How to Scale Meta Ads Without Increasing CPA',
+    excerpt: 'Learn proven strategies to scale Facebook and Instagram ad campaigns while maintaining profitable cost-per-acquisition.',
+    date: 'January 24, 2026',
+    readTime: '6 min read',
+    category: 'Tactics',
+    image: '/images/blog-scale.jpg',
+    slug: 'scale-meta-ads-without-increasing-cpa',
+  },
+];
