@@ -11,7 +11,10 @@ import {
   FiArrowRight,
   FiCalendar,
   FiClock,
-  FiStar
+  FiStar,
+  FiCode,
+  FiSmartphone,
+  FiServer
 } from 'react-icons/fi';
 
 const ArticlesHero = () => {
@@ -42,20 +45,6 @@ const ArticlesHero = () => {
       y: 0,
       opacity: 1,
       transition: { duration: 0.6, ease: 'easeOut' },
-    },
-  };
-
-  const titleVariants = {
-    hidden: { scale: 0.8, opacity: 0 },
-    visible: {
-      scale: 1,
-      opacity: 1,
-      transition: {
-        type: 'spring',
-        stiffness: 200,
-        damping: 20,
-        delay: 0.3,
-      },
     },
   };
 
@@ -90,26 +79,26 @@ const ArticlesHero = () => {
   };
 
   const topics = [
-    { name: 'Performance Marketing', icon: <FiTrendingUp />, color: 'from-primary to-secondary', articles: 24 },
-    { name: 'Paid Advertising', icon: <FiTarget />, color: 'from-blue-500 to-cyan-500', articles: 18 },
-    { name: 'Data Analytics', icon: <FiBarChart2 />, color: 'from-green-500 to-emerald-500', articles: 15 },
-    { name: 'Growth Strategy', icon: <FiUsers />, color: 'from-orange-500 to-red-500', articles: 12 },
+    { name: 'Mobile Development', icon: <FiSmartphone />, color: 'from-primary to-secondary', articles: 12 },
+    { name: 'Web Development', icon: <FiServer />, color: 'from-blue-500 to-cyan-500', articles: 10 },
+    { name: 'Backend & APIs', icon: <FiCode />, color: 'from-green-500 to-emerald-500', articles: 8 },
+    { name: 'UI/UX Design', icon: <FiTarget />, color: 'from-orange-500 to-red-500', articles: 6 },
   ];
 
   const stats = [
-    { value: '50+', label: 'Articles Published', icon: <FiBookOpen />, delay: 0.8 },
-    { value: '10k+', label: 'Monthly Readers', icon: <FiUsers />, delay: 0.9 },
+    { value: '30+', label: 'Articles Published', icon: <FiBookOpen />, delay: 0.8 },
+    { value: '5k+', label: 'Monthly Readers', icon: <FiUsers />, delay: 0.9 },
     { value: '4.9', label: 'Reader Rating', icon: <FiStar />, delay: 1.0 },
   ];
 
   const featuredArticle = {
-    title: 'The Future of Performance Marketing in 2024',
+    title: 'The Future of Cross-Platform Development in 2024',
     readTime: '8 min read',
     date: 'Jan 15, 2024',
     category: 'Trends',
   };
 
-  const titleText = "Article & Blog".split('');
+  const titleText = "Articles & Insights".split('');
 
   return (
     <section ref={ref} className="pt-32 pb-20 section-padding relative overflow-hidden">
@@ -140,7 +129,7 @@ const ArticlesHero = () => {
           className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-r from-accent/20 to-primary/20 rounded-full blur-3xl"
         />
         
-        {/* Floating Paper Effect */}
+        {/* Floating Code Effect */}
         <motion.div
           animate={{
             y: [0, -20, 0],
@@ -153,7 +142,7 @@ const ArticlesHero = () => {
           }}
           className="absolute top-32 right-20 opacity-10"
         >
-          <FiBookOpen size={80} />
+          <FiCode size={80} />
         </motion.div>
         
         <motion.div
@@ -169,7 +158,7 @@ const ArticlesHero = () => {
           }}
           className="absolute bottom-32 left-20 opacity-10"
         >
-          <FiTrendingUp size={60} />
+          <FiSmartphone size={60} />
         </motion.div>
 
         {/* Animated Grid Pattern */}
@@ -211,10 +200,10 @@ const ArticlesHero = () => {
             variants={itemVariants}
             className="text-lg md:text-xl text-light/70 mb-12 max-w-3xl mx-auto leading-relaxed"
           >
-            Practical insights, proven strategies, and expert perspectives on{' '}
-            <span className="text-primary font-semibold">performance marketing</span>,{' '}
-            <span className="text-secondary font-semibold">paid advertising</span>, and{' '}
-            <span className="text-accent font-semibold">business growth</span>, grounded in real-world experience.
+            Practical insights, tutorials, and expert perspectives on{' '}
+            <span className="text-primary font-semibold">mobile development</span>,{' '}
+            <span className="text-secondary font-semibold">web applications</span>, and{' '}
+            <span className="text-accent font-semibold">full-stack development</span>, based on real-world project experience.
           </motion.p>
 
           {/* Stats Cards */}
@@ -373,7 +362,7 @@ const ArticlesHero = () => {
               className="glass-effect rounded-2xl p-6 backdrop-blur-md"
             >
               <p className="text-light/70 text-sm mb-3">
-                Get weekly insights delivered to your inbox
+                Get weekly development insights delivered to your inbox
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <input

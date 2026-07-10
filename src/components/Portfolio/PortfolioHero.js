@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { FiGrid, FiTrendingUp, FiAward, FiBarChart2 } from 'react-icons/fi';
+import { FiGrid, FiTrendingUp, FiAward, FiBarChart2, FiCode, FiSmartphone, FiServer, FiDatabase } from 'react-icons/fi';
 
 const PortfolioHero = ({ filter, setFilter }) => {
   const [isHovered, setIsHovered] = useState(null);
@@ -20,14 +20,14 @@ const PortfolioHero = ({ filter, setFilter }) => {
 
   const filters = [
     { name: 'All', icon: <FiGrid />, color: 'from-purple-500 to-pink-500' },
-    { name: 'Meta Ads', icon: <FiTrendingUp />, color: 'from-blue-500 to-cyan-500' },
-    { name: 'Google Ads', icon: <FiBarChart2 />, color: 'from-green-500 to-emerald-500' },
+    { name: 'Web Apps', icon: <FiServer />, color: 'from-blue-500 to-cyan-500' },
+    { name: 'Mobile Apps', icon: <FiSmartphone />, color: 'from-green-500 to-emerald-500' },
   ];
 
   const stats = [
-    { value: '30+', label: 'Successful Projects', icon: <FiAward /> },
-    { value: '4.8x', label: 'Average ROAS', icon: <FiTrendingUp /> },
-    { value: '$100k+', label: 'Ad Spend Managed', icon: <FiBarChart2 /> },
+    { value: '35+', label: 'Projects Completed', icon: <FiAward /> },
+    { value: '5.0', label: 'Average Rating', icon: <FiTrendingUp /> },
+    { value: '25+', label: 'Happy Clients', icon: <FiBarChart2 /> },
   ];
 
   const containerVariants = {
@@ -65,7 +65,7 @@ const PortfolioHero = ({ filter, setFilter }) => {
     }),
   };
 
-  const titleText = "PROVEN PERFORMANCE".split('');
+  const titleText = "MY PORTFOLIO".split('');
 
   return (
     <section ref={ref} className="relative pt-32 pb-20 section-padding overflow-hidden">
@@ -95,6 +95,22 @@ const PortfolioHero = ({ filter, setFilter }) => {
           }}
           className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-r from-accent/20 to-primary/20 rounded-full blur-3xl"
         />
+        
+        {/* Floating Code Icons */}
+        <motion.div
+          animate={{ y: [0, -20, 0], rotate: [0, 10, -10, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-32 right-20 text-primary/20 hidden lg:block"
+        >
+          <FiCode size={50} />
+        </motion.div>
+        <motion.div
+          animate={{ y: [0, 20, 0], rotate: [0, -10, 10, 0] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute bottom-32 left-20 text-secondary/20 hidden lg:block"
+        >
+          <FiSmartphone size={40} />
+        </motion.div>
       </div>
 
       {/* Animated Grid Pattern */}
@@ -113,7 +129,7 @@ const PortfolioHero = ({ filter, setFilter }) => {
           className="text-center"
         >
           {/* Animated Title with Letter-by-Letter Effect */}
-          <motion.div className="mb-6 overflow-hidden">
+          <motion.div className="mb-4 overflow-hidden">
             <div className="flex flex-wrap justify-center gap-1">
               {titleText.map((letter, index) => (
                 <motion.span
@@ -128,13 +144,6 @@ const PortfolioHero = ({ filter, setFilter }) => {
                 </motion.span>
               ))}
             </div>
-            <motion.div
-              variants={itemVariants}
-              className="mt-2"
-            >
-              <span className="gradient-text text-4xl md:text-6xl lg:text-7xl font-display font-bold">
-              </span>
-            </motion.div>
           </motion.div>
 
           {/* Animated Subtitle */}
@@ -142,10 +151,10 @@ const PortfolioHero = ({ filter, setFilter }) => {
             variants={itemVariants}
             className="text-lg md:text-xl text-light/70 mb-8 max-w-3xl mx-auto leading-relaxed"
           >
-            Real-world results for brands ready to scale. See how I transform{' '}
-            <span className="text-primary font-semibold">Meta</span> and{' '}
-            <span className="text-secondary font-semibold">Google Ads</span> spend 
-            into measurable business growth.
+            Here are some of my best works. I've built{' '}
+            <span className="text-primary font-semibold">web applications</span>,{' '}
+            <span className="text-secondary font-semibold">mobile apps</span>, and{' '}
+            <span className="text-accent font-semibold">full-stack solutions</span> for clients worldwide.
           </motion.p>
 
           {/* Animated Stats Cards */}
@@ -267,6 +276,25 @@ const PortfolioHero = ({ filter, setFilter }) => {
               className="h-px bg-gradient-to-r from-transparent via-secondary to-transparent"
             />
           </motion.div>
+
+          {/* Technology Stack Badges */}
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-wrap justify-center gap-2 mt-8"
+          >
+            {['Flutter', 'React', 'Node.js', 'Next.js', 'MongoDB', 'Firebase'].map((tech, idx) => (
+              <motion.span
+                key={idx}
+                whileHover={{ scale: 1.05, y: -2 }}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1.5 + idx * 0.05 }}
+                className="glass-effect backdrop-blur-md px-3 py-1.5 rounded-full text-xs text-light/60"
+              >
+                {tech}
+              </motion.span>
+            ))}
+          </motion.div>
         </motion.div>
       </div>
 
@@ -274,7 +302,7 @@ const PortfolioHero = ({ filter, setFilter }) => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
+        transition={{ delay: 1.8 }}
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
       >
         <motion.div
@@ -282,7 +310,7 @@ const PortfolioHero = ({ filter, setFilter }) => {
           transition={{ duration: 1.5, repeat: Infinity }}
           className="flex flex-col items-center gap-2"
         >
-          <span className="text-xs text-light/40">Scroll to explore</span>
+          <span className="text-xs text-light/40">Explore my work</span>
           <div className="w-5 h-8 border border-light/20 rounded-full flex justify-center">
             <motion.div
               animate={{ y: [0, 10, 0] }}

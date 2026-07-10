@@ -10,8 +10,8 @@ const ContactPage = () => {
   return (
     <>
       <Helmet>
-        <title>Contact Sneha Anindya - Start Scaling Your Brand Today</title>
-        <meta name="description" content="Ready to scale your brand with data-driven paid media? Contact Sneha for a free growth audit and start your journey to measurable results." />
+        <title>Contact Mahdi Hasan - Full-Stack Developer | Hire Me</title>
+        <meta name="description" content="Ready to bring your digital ideas to life? Contact Mahdi Hasan for full-stack development, Flutter apps, web development, and cross-platform solutions." />
       </Helmet>
       <ContactHero />
       <div className="container mx-auto px-6 md:px-12">

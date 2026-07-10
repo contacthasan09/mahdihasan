@@ -11,7 +11,9 @@ import {
   FiHeart, 
   FiShare2,
   FiBookmark,
-  FiMessageCircle
+  FiMessageCircle,
+  FiCode,
+  FiSmartphone
 } from 'react-icons/fi';
 
 const ArticleCard = ({ article, index }) => {
@@ -22,17 +24,29 @@ const ArticleCard = ({ article, index }) => {
   // Network images for articles
   const getArticleImage = (title) => {
     const images = {
-      'Full-Funnel Marketing Explained: From Clicks to Conversions': {
-        main: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop',
-        detail: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=600&fit=crop',
+      'Building Cross-Platform Apps with Flutter: A Complete Guide': {
+        main: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=500&fit=crop',
+        detail: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=1200&h=600&fit=crop',
       },
-      'Google Ads vs Meta Ads: Which Is Right for Your Business?': {
-        main: 'https://images.unsplash.com/photo-1573804633927-b8cd4c7b988b?w=800&h=500&fit=crop',
-        detail: 'https://images.unsplash.com/photo-1573804633927-b8cd4c7b988b?w=1200&h=600&fit=crop',
+      'React vs Next.js: Which Framework Should You Choose?': {
+        main: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=500&fit=crop',
+        detail: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1200&h=600&fit=crop',
       },
-      'How to Scale Meta Ads Without Increasing CPA': {
-        main: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=800&h=500&fit=crop',
-        detail: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=1200&h=600&fit=crop',
+      'Node.js Backend Best Practices for Scalable Applications': {
+        main: 'https://images.unsplash.com/photo-1627398242454-45a1415d727a?w=800&h=500&fit=crop',
+        detail: 'https://images.unsplash.com/photo-1627398242454-45a1415d727a?w=1200&h=600&fit=crop',
+      },
+      'Firebase vs MongoDB: Choosing the Right Database': {
+        main: 'https://images.unsplash.com/photo-1544383835-bda2bc66a164?w=800&h=500&fit=crop',
+        detail: 'https://images.unsplash.com/photo-1544383835-bda2bc66a164?w=1200&h=600&fit=crop',
+      },
+      'Real-time Features with Socket.io: A Practical Guide': {
+        main: 'https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&h=500&fit=crop',
+        detail: 'https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=1200&h=600&fit=crop',
+      },
+      'UI/UX Design Principles for Developers': {
+        main: 'https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=800&h=500&fit=crop',
+        detail: 'https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=1200&h=600&fit=crop',
       },
     };
     return images[title] || {
@@ -43,47 +57,44 @@ const ArticleCard = ({ article, index }) => {
 
   const articleImages = getArticleImage(article.title);
 
-  // Mock full article content
+  // Get full article content
   const getFullArticle = () => {
     return {
-      author: 'Sneha Anindya',
-      authorRole: 'Performance Marketing Expert',
+      author: article.author || 'Mahdi Hasan',
+      authorRole: article.authorRole || 'Full-Stack Developer',
       readTime: article.readTime,
       date: article.date,
-      category: article.category || 'Marketing Strategy',
-      tags: ['Performance Marketing', 'Digital Advertising', 'Growth Strategy'],
-      content: `
-        <p class="text-light/80 leading-relaxed mb-4">In today's competitive digital landscape, understanding the nuances of ${article.title.toLowerCase()} is crucial for business success. This comprehensive guide will walk you through everything you need to know.</p>
+      category: article.category || 'Development',
+      tags: article.tags || ['Development', 'Programming', 'Tech'],
+      content: article.content || `
+        <p class="text-light/80 leading-relaxed mb-4">In this comprehensive guide, we'll explore ${article.title.toLowerCase()}. Drawing from real-world project experience, I'll share practical insights and best practices.</p>
         
         <h2 class="text-2xl font-display font-bold text-light mt-8 mb-4">Why This Matters</h2>
-        <p class="text-light/80 leading-relaxed mb-4">The digital marketing ecosystem is evolving at an unprecedented pace. With new platforms emerging and algorithms constantly changing, staying ahead requires a strategic approach and deep understanding of core principles.</p>
+        <p class="text-light/80 leading-relaxed mb-4">The tech landscape is evolving rapidly. Staying updated with the latest trends and best practices is crucial for building modern, scalable applications.</p>
         
-        <h2 class="text-2xl font-display font-bold text-light mt-8 mb-4">Key Insights</h2>
+        <h2 class="text-2xl font-display font-bold text-light mt-8 mb-4">Key Takeaways</h2>
         <ul class="list-disc list-inside text-light/80 leading-relaxed mb-4 space-y-2">
-          <li>Data-driven decision making is no longer optional—it's essential</li>
-          <li>Understanding your audience journey leads to better ROI</li>
-          <li>Integration across channels creates compound growth effects</li>
-          <li>Continuous testing and optimization drive sustainable results</li>
+          <li>Understanding core concepts leads to better architecture decisions</li>
+          <li>Practical implementation matters more than theory</li>
+          <li>Continuous learning is essential in tech</li>
+          <li>Real-world experience shapes best practices</li>
         </ul>
         
         <div class="glass-effect rounded-2xl p-6 my-8 border-l-4 border-primary">
-          <p class="text-light italic">"The best marketing doesn't feel like marketing. It feels like value."</p>
-          <p class="text-primary text-sm mt-2">— Tom Fishburne</p>
+          <p class="text-light italic">"The best way to learn is by building. Theory is important, but practice makes perfect."</p>
+          <p class="text-primary text-sm mt-2">— Mahdi Hasan</p>
         </div>
         
         <h2 class="text-2xl font-display font-bold text-light mt-8 mb-4">Practical Application</h2>
-        <p class="text-light/80 leading-relaxed mb-4">Implementing these strategies requires a systematic approach. Start by auditing your current campaigns, identifying gaps, and testing new approaches incrementally. Remember that what works for one brand may not work for another—context matters.</p>
-        
-        <h2 class="text-2xl font-display font-bold text-light mt-8 mb-4">Measuring Success</h2>
-        <p class="text-light/80 leading-relaxed mb-4">Track key metrics including ROAS, CPA, LTV, and engagement rates. Set up proper attribution models to understand which touchpoints contribute most to conversions. Regular reporting and analysis will help you refine your strategy over time.</p>
+        <p class="text-light/80 leading-relaxed mb-4">Apply these concepts to your projects gradually. Start with small implementations, test thoroughly, and iterate based on feedback and results.</p>
         
         <div class="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl p-6 my-8">
-          <h3 class="text-xl font-display font-bold text-light mb-3">Key Takeaways</h3>
+          <h3 class="text-xl font-display font-bold text-light mb-3">Key Insights</h3>
           <ul class="list-disc list-inside text-light/80 leading-relaxed space-y-1">
-            <li>Focus on quality over quantity in your campaigns</li>
-            <li>Test creative variations regularly to find winning combinations</li>
-            <li>Use data to inform decisions, not just report results</li>
-            <li>Build systems that scale with your business growth</li>
+            <li>Start with a solid foundation</li>
+            <li>Test and iterate continuously</li>
+            <li>Learn from real projects</li>
+            <li>Share knowledge with the community</li>
           </ul>
         </div>
       `,
@@ -290,12 +301,12 @@ const ArticleCard = ({ article, index }) => {
                 <div className="mt-8 p-6 rounded-2xl glass-effect">
                   <div className="flex items-center gap-4">
                     <div className="w-16 h-16 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
-                      <span className="text-2xl text-white font-bold">S</span>
+                      <span className="text-2xl text-white font-bold">M</span>
                     </div>
                     <div>
                       <h4 className="text-lg font-display font-bold text-light">{fullArticle.author}</h4>
                       <p className="text-sm text-light/60">{fullArticle.authorRole}</p>
-                      <p className="text-xs text-light/40 mt-1">Helping brands scale through data-driven marketing</p>
+                      <p className="text-xs text-light/40 mt-1">Building digital solutions with modern tech stacks</p>
                     </div>
                   </div>
                 </div>

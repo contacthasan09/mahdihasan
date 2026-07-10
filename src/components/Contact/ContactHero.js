@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { useNavigate } from 'react-router-dom';
 import { 
   FiMessageCircle, 
   FiMail, 
@@ -11,19 +12,51 @@ import {
   FiUsers,
   FiAward,
   FiStar,
-  FiArrowRight
+  FiArrowRight,
+  FiCode,
+  FiSmartphone
 } from 'react-icons/fi';
+import { FaWhatsapp } from 'react-icons/fa';
 
 const ContactHero = () => {
   const controls = useAnimation();
   const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
   const [activeStat, setActiveStat] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (inView) {
       controls.start('visible');
     }
   }, [controls, inView]);
+
+  // WhatsApp handler
+  const handleWhatsApp = () => {
+    const phoneNumber = '8801660157557'; // Your WhatsApp number
+    const message = encodeURIComponent('Hello Mahdi, I\'m interested in working with you on a project.');
+    window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+  };
+
+  // Email handler
+  const handleEmail = () => {
+    const email = 'contacthasan09@gmail.com';
+    const subject = encodeURIComponent('Project Inquiry - Mahdi Hasan');
+    const body = encodeURIComponent('Hello Mahdi,\n\nI came across your portfolio and would like to discuss a project with you.\n\nBest regards,');
+    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+  };
+
+  // View My Work handler
+  const handleViewWork = () => {
+    navigate('/portfolio');
+    window.scrollTo(0, 0);
+  };
+
+  // Start Conversation handler - Opens WhatsApp
+  const handleStartConversation = () => {
+    const phoneNumber = '8801660157557';
+    const message = encodeURIComponent('Hello Mahdi, I came across your portfolio and would like to discuss a project with you.');
+    window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -88,19 +121,19 @@ const ContactHero = () => {
     },
   };
 
-  const titleText = "START THE CONVERSATION".split('');
+  const titleText = "LET'S CONNECT".split('');
   
   const stats = [
     { value: '24h', label: 'Response Time', icon: <FiSend />, color: 'from-primary to-secondary', delay: 0.8 },
     { value: '100%', label: 'Client Satisfaction', icon: <FiSmile />, color: 'from-green-500 to-emerald-500', delay: 0.9 },
-    { value: '50+', label: 'Happy Clients', icon: <FiUsers />, color: 'from-blue-500 to-cyan-500', delay: 1.0 },
-    { value: '4.9', label: 'Average Rating', icon: <FiStar />, color: 'from-yellow-500 to-orange-500', delay: 1.1 },
+    { value: '35+', label: 'Projects Done', icon: <FiCode />, color: 'from-blue-500 to-cyan-500', delay: 1.0 },
+    { value: '5.0', label: 'Client Rating', icon: <FiStar />, color: 'from-yellow-500 to-orange-500', delay: 1.1 },
   ];
 
   const contactMethods = [
-    { method: 'Email', response: 'Within 2 hours', icon: <FiMail /> },
-    { method: 'WhatsApp', response: 'Instant reply', icon: <FiMessageCircle /> },
-    { method: 'Video Call', response: 'Schedule meeting', icon: <FiTrendingUp /> },
+    { method: 'Email', response: 'Within 2 hours', icon: <FiMail />, action: handleEmail },
+    { method: 'WhatsApp', response: 'Instant reply', icon: <FaWhatsapp />, action: handleWhatsApp },
+    { method: 'Video Call', response: 'Schedule meeting', icon: <FiTrendingUp />, action: handleStartConversation },
   ];
 
   return (
@@ -152,7 +185,7 @@ const ContactHero = () => {
           animate="animate"
           className="absolute top-32 left-20 text-primary/20 hidden lg:block"
         >
-          <FiMessageCircle size={60} />
+          <FiCode size={60} />
         </motion.div>
         
         <motion.div
@@ -163,7 +196,7 @@ const ContactHero = () => {
           className="absolute bottom-32 right-20 text-secondary/20 hidden lg:block"
           style={{ animationDelay: '1s' }}
         >
-          <FiMail size={50} />
+          <FiSmartphone size={50} />
         </motion.div>
         
         <motion.div
@@ -229,10 +262,11 @@ const ContactHero = () => {
             variants={itemVariants}
             className="text-lg md:text-xl text-light/70 mb-12 max-w-3xl mx-auto leading-relaxed"
           >
-            Let's Scale Your Brand. Whether you're ready to scale your current success or looking for a fresh 
-            perspective on your{' '}
-            <span className="text-primary font-semibold">Meta</span> and{' '}
-            <span className="text-secondary font-semibold">Google Ads</span>, I'm here to help.
+            Have a project in mind? Let's discuss how I can help bring your digital vision to life. 
+            Whether it's a{' '}
+            <span className="text-primary font-semibold">mobile app</span>,{' '}
+            <span className="text-secondary font-semibold">web application</span>, or{' '}
+            <span className="text-accent font-semibold">full-stack solution</span>, I'm here to help.
           </motion.p>
 
           {/* Stats Cards */}
@@ -281,18 +315,20 @@ const ContactHero = () => {
             ))}
           </motion.div>
 
-          {/* Contact Methods Badges */}
+          {/* Contact Methods Badges - Now Clickable */}
           <motion.div
             variants={itemVariants}
             className="flex flex-wrap justify-center gap-4 mb-12"
           >
             {contactMethods.map((method, index) => (
-              <motion.div
+              <motion.button
                 key={index}
                 variants={statCardVariants}
                 custom={index + 4}
                 whileHover={{ scale: 1.05 }}
-                className="glass-effect rounded-full px-6 py-3 backdrop-blur-md border border-white/10"
+                whileTap={{ scale: 0.95 }}
+                onClick={method.action}
+                className="glass-effect rounded-full px-6 py-3 backdrop-blur-md border border-white/10 hover:border-primary/50 transition-all duration-300 cursor-pointer"
               >
                 <div className="flex items-center gap-3">
                   <div className="text-primary text-xl">
@@ -303,7 +339,7 @@ const ContactHero = () => {
                     <p className="text-xs text-light/40">{method.response}</p>
                   </div>
                 </div>
-              </motion.div>
+              </motion.button>
             ))}
           </motion.div>
 
@@ -315,6 +351,7 @@ const ContactHero = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={handleStartConversation}
               className="px-8 py-3 rounded-full bg-gradient-to-r from-primary to-secondary text-white font-semibold shadow-lg hover:shadow-primary/50 transition-all duration-300 flex items-center gap-2 group"
             >
               <FiMessageCircle />
@@ -330,10 +367,11 @@ const ContactHero = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={handleViewWork}
               className="px-8 py-3 rounded-full glass-effect text-light font-semibold border border-white/20 hover:border-primary/50 transition-all duration-300 flex items-center gap-2"
             >
-              <FiSend />
-              Schedule a Call
+              <FiCode />
+              View My Work
             </motion.button>
           </motion.div>
 
@@ -347,7 +385,7 @@ const ContactHero = () => {
               transition={{ duration: 1.5, repeat: Infinity }}
               className="w-2 h-2 bg-green-500 rounded-full"
             />
-            <span className="text-xs text-light/60">Available for new projects</span>
+            <span className="text-xs text-light/60">Available for freelance work</span>
             <span className="text-xs text-primary font-semibold">Let's talk!</span>
           </motion.div>
 
@@ -383,12 +421,12 @@ const ContactHero = () => {
           >
             <span className="flex items-center gap-1">
               <FiAward size={12} />
-              Certified Partner
+              35+ Projects
             </span>
             <span>•</span>
-            <span>GDPR Compliant</span>
+            <span>100% Satisfaction</span>
             <span>•</span>
-            <span>24/7 Support</span>
+            <span>Fast Delivery</span>
           </motion.div>
         </motion.div>
       </div>

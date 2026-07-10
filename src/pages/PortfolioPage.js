@@ -11,8 +11,9 @@ const PortfolioPage = () => {
   return (
     <>
       <Helmet>
-        <title>Portfolio - Sneha Anindya | Success Stories & Case Studies</title>
-        <meta name="description" content="Explore real-world success stories from brands that scaled with data-driven Meta and Google Ads campaigns. See proven results and ROAS improvements." />
+        <title>Mahdi Hasan - Portfolio | Web & Mobile App Development Projects</title>
+        <meta name="description" content="Explore my portfolio of web and mobile app development projects. See real-world examples of Flutter, React, Node.js applications I've built for clients worldwide." />
+        <meta name="keywords" content="Portfolio, Web Development, Mobile Apps, Flutter, React, Node.js, Full-Stack Developer" />
       </Helmet>
       <PortfolioHero filter={filter} setFilter={setFilter} />
       <PortfolioGrid filter={filter} />

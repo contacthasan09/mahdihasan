@@ -7,14 +7,36 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* Responsive font base */
+    font-size: 16px;
+  }
+  
+  /* Adjust base font size for different screens */
+  @media (max-width: 768px) {
+    html {
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    html {
+      font-size: 13px;
+    }
   }
   
   body {
     @apply bg-dark text-light font-sans overflow-x-hidden;
   }
   
+  /* Responsive scrollbar - thinner on mobile */
   ::-webkit-scrollbar {
     width: 8px;
+  }
+  
+  @media (max-width: 768px) {
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
   }
   
   ::-webkit-scrollbar-track {
@@ -28,6 +50,13 @@
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-secondary;
   }
+  
+  /* Better touch targets on mobile */
+  @media (max-width: 768px) {
+    button, a, input, select, textarea {
+      min-height: 44px;
+    }
+  }
 }
 
 @layer components {
@@ -39,12 +68,99 @@
     @apply backdrop-blur-lg bg-white/5 border border-white/10;
   }
   
+  /* Mobile glass effect - slightly stronger for better readability */
+  @media (max-width: 768px) {
+    .glass-effect {
+      @apply backdrop-blur-md bg-white/10;
+    }
+  }
+  
   .card-hover {
     @apply transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-primary/20;
   }
   
+  /* Disable scale on mobile for better performance */
+  @media (max-width: 768px) {
+    .card-hover:hover {
+      transform: none;
+    }
+  }
+  
+  /* Responsive section padding */
   .section-padding {
-    @apply py-20 px-6 md:px-12 lg:px-24;
+    @apply py-12 px-4;
+  }
+  
+  @media (min-width: 640px) {
+    .section-padding {
+      @apply py-16 px-6;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .section-padding {
+      @apply py-20 px-8;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .section-padding {
+      @apply py-20 px-12;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    .section-padding {
+      @apply py-20 px-24;
+    }
+  }
+  
+  /* Responsive container */
+  .responsive-container {
+    @apply container mx-auto px-4;
+  }
+  
+  @media (min-width: 640px) {
+    .responsive-container {
+      @apply px-6;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .responsive-container {
+      @apply px-8;
+    }
+  }
+  
+  /* Responsive headings */
+  .responsive-h1 {
+    @apply text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-display font-bold;
+  }
+  
+  .responsive-h2 {
+    @apply text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-display font-bold;
+  }
+  
+  .responsive-h3 {
+    @apply text-xl md:text-2xl lg:text-3xl font-display font-bold;
+  }
+  
+  /* Responsive text */
+  .responsive-text {
+    @apply text-sm md:text-base lg:text-lg;
+  }
+  
+  /* Grid layouts */
+  .responsive-grid-2 {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8;
+  }
+  
+  .responsive-grid-3 {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8;
+  }
+  
+  .responsive-grid-4 {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6;
   }
 }
 
@@ -61,5 +177,97 @@
     50% {
       background-position: 100% 50%;
     }
+  }
+  
+  /* Safe area insets for notched phones */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  /* Better text wrapping on mobile */
+  .break-words-mobile {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  /* Hide scrollbar while keeping functionality */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Mobile-specific fixes */
+@media (max-width: 640px) {
+  /* Prevent horizontal scroll */
+  body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+  }
+  
+  /* Better spacing for stacked elements */
+  .space-y-mobile > * + * {
+    margin-top: 1rem;
+  }
+  
+  /* Full width images on mobile */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Better button sizing */
+  button {
+    width: auto;
+    white-space: nowrap;
+  }
+  
+  /* Allow text wrapping on small screens */
+  .whitespace-normal-mobile {
+    white-space: normal !important;
+  }
+}
+
+/* Tablet-specific fixes */
+@media (min-width: 641px) and (max-width: 1024px) {
+  /* Adjust padding for tablets */
+  .section-padding {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Large screen optimizations */
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+/* Dark mode support (if needed) */
+@media (prefers-color-scheme: dark) {
+  .glass-effect {
+    @apply bg-black/30;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

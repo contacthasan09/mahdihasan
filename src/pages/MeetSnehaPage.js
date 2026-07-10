@@ -6,12 +6,12 @@ import Philosophy from '../components/MeetSneha/Philosophy';
 import ExpertiseStack from '../components/MeetSneha/ExpertiseStack';
 import Journey from '../components/MeetSneha/Journey';
 
-const MeetSnehaPage = () => {
+const MeetMahdiPage = () => {
   return (
     <>
       <Helmet>
-        <title>Meet Sneha Anindya - Performance Marketing Expert & Growth Partner</title>
-        <meta name="description" content="Meet Sneha, a certified paid media specialist with $100k+ ad spend managed. Learn about her philosophy, expertise, and journey in digital marketing." />
+        <title>Meet Mahdi Hasan - Full-Stack Developer & Cross-Platform Expert</title>
+        <meta name="description" content="Meet Mahdi Hasan, a creative full-stack developer with 3+ years of experience in Flutter, React, Node.js, and cross-platform app development. Based in Dhaka, Bangladesh." />
       </Helmet>
       <AboutHero />
       <Philosophy />
@@ -21,4 +21,4 @@ const MeetSnehaPage = () => {
   );
 };
 
-export default MeetSnehaPage;
+export default MeetMahdiPage;

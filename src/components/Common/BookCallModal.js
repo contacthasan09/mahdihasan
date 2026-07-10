@@ -12,7 +12,9 @@ import {
   FiBriefcase,
   FiDollarSign,
   FiUser,
-  FiClock
+  FiClock,
+  FiCode,
+  FiSmartphone
 } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
 
@@ -20,13 +22,16 @@ const BookCallModal = ({ isOpen, onClose }) => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     fullName: '',
-    businessName: '',
+    companyName: '',
     email: '',
     phone: '',
-    service: '',
+    projectType: '',
     budget: '',
+    timeline: '',
+    contactMethod: '',
     message: ''
   });
+  const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -36,6 +41,7 @@ const BookCallModal = ({ isOpen, onClose }) => {
     } else {
       document.body.style.overflow = 'unset';
       setStep(1);
+      setErrors({});
     }
     return () => {
       document.body.style.overflow = 'unset';
@@ -43,10 +49,60 @@ const BookCallModal = ({ isOpen, onClose }) => {
   }, [isOpen]);
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
+    // Clear error for this field when user types
+    if (errors[name]) {
+      setErrors({
+        ...errors,
+        [name]: ''
+      });
+    }
+  };
+
+  const validateStep1 = () => {
+    const newErrors = {};
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = 'Full Name is required';
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+    if (!formData.phone.trim()) {
+      newErrors.phone = 'Phone Number is required';
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const validateStep2 = () => {
+    const newErrors = {};
+    if (!formData.projectType) {
+      newErrors.projectType = 'Project Type is required';
+    }
+    if (!formData.message.trim()) {
+      newErrors.message = 'Project Details are required';
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleNext = () => {
+    if (step === 1 && validateStep1()) {
+      setStep(2);
+    } else if (step === 2 && validateStep2()) {
+      setStep(3);
+    }
+  };
+
+  const handleBack = () => {
+    setStep(step - 1);
+    setErrors({});
   };
 
   const handleSubmit = async (e) => {
@@ -55,6 +111,7 @@ const BookCallModal = ({ isOpen, onClose }) => {
     
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500));
+    console.log('Form data:', formData);
     
     setIsSubmitting(false);
     setIsSubmitted(true);
@@ -64,13 +121,16 @@ const BookCallModal = ({ isOpen, onClose }) => {
       setIsSubmitted(false);
       onClose();
       setStep(1);
+      setErrors({});
       setFormData({
         fullName: '',
-        businessName: '',
+        companyName: '',
         email: '',
         phone: '',
-        service: '',
+        projectType: '',
         budget: '',
+        timeline: '',
+        contactMethod: '',
         message: ''
       });
     }, 3000);
@@ -115,29 +175,48 @@ const BookCallModal = ({ isOpen, onClose }) => {
 
   const steps = [
     { number: 1, title: 'Basic Info', icon: <FiUser /> },
-    { number: 2, title: 'Business Details', icon: <FiBriefcase /> },
+    { number: 2, title: 'Project Details', icon: <FiCode /> },
     { number: 3, title: 'Review & Submit', icon: <FiCheckCircle /> }
   ];
 
-  const services = [
-    'Meta Ads Management',
-    'Google Ads Management',
-    'Data Analytics & Attribution',
-    'Full Funnel Strategy',
-    'Custom Package'
+  const projectTypes = [
+    'Mobile App Development (Flutter)',
+    'Web Application (React/Next.js)',
+    'Full-Stack Development',
+    'UI/UX Design',
+    'API Development',
+    'Backend Development',
+    'Cross-Platform App',
+    'Other'
   ];
 
   const budgets = [
-    'Under $500',
-    '$500 - $2,000',
-    '$2,000 - $5,000',
+    'Under $1,000',
+    '$1,000 - $3,000',
+    '$3,000 - $5,000',
     '$5,000 - $10,000',
-    '$10,000+'
+    '$10,000 - $25,000',
+    '$25,000+'
+  ];
+
+  const timelines = [
+    'ASAP (Within 2 weeks)',
+    '1 - 2 months',
+    '2 - 3 months',
+    '3 - 6 months',
+    'Flexible'
   ];
 
   const contactMethods = [
-    { icon: <FaWhatsapp />, label: 'WhatsApp', value: '+8801779322237', link: 'https://wa.me/8801779322237' },
-    { icon: <FiMail />, label: 'Email', value: 'contact@anindyasneha.com', link: 'mailto:contact@anindyasneha.com' },
+    'Email',
+    'Phone',
+    'WhatsApp',
+    'Video Call'
+  ];
+
+  const contactInfo = [
+    { icon: <FaWhatsapp />, label: 'WhatsApp', value: '+8801660157557', link: 'https://wa.me/8801660157557' },
+    { icon: <FiMail />, label: 'Email', value: 'contacthasan09@gmail.com', link: 'mailto:contacthasan09@gmail.com' },
     { icon: <FiMessageCircle />, label: 'Live Chat', value: 'Available 24/7', link: '#' }
   ];
 
@@ -181,10 +260,10 @@ const BookCallModal = ({ isOpen, onClose }) => {
                   </span>
                 </motion.div>
                 <motion.h2 variants={childVariants} className="text-2xl md:text-3xl font-display font-bold text-light">
-                  Schedule Your <span className="gradient-text">Growth Call</span>
+                  Schedule Your <span className="gradient-text">Project Call</span>
                 </motion.h2>
                 <motion.p variants={childVariants} className="text-light/60 text-sm mt-2">
-                  Let's discuss how to scale your brand with data-driven strategies
+                  Let's discuss your project and how I can help bring your vision to life
                 </motion.p>
 
                 {/* Steps Indicator */}
@@ -224,7 +303,7 @@ const BookCallModal = ({ isOpen, onClose }) => {
                     Connect Directly
                   </h3>
                   <div className="space-y-3">
-                    {contactMethods.map((method, idx) => (
+                    {contactInfo.map((method, idx) => (
                       <motion.a
                         key={idx}
                         href={method.link}
@@ -254,9 +333,9 @@ const BookCallModal = ({ isOpen, onClose }) => {
                   </h3>
                   <div className="space-y-4">
                     {[
-                      { step: 1, title: 'Data Review', desc: 'I personally review your application and current website/assets within 24 hours.' },
-                      { step: 2, title: 'Audit Call', desc: 'We schedule a 15-min call to dive into your current account bottlenecks.' },
-                      { step: 3, title: 'Scaling Roadmap', desc: 'I present a 90-day strategy to fix tracking, test creative, and scale spend.' }
+                      { step: 1, title: 'Initial Discussion', desc: 'We discuss your project requirements, goals, and timeline in a free consultation call.' },
+                      { step: 2, title: 'Project Planning', desc: 'I create a detailed project roadmap, tech stack recommendations, and timeline estimate.' },
+                      { step: 3, title: 'Development & Delivery', desc: 'I build your project with regular updates, testing, and on-time delivery.' }
                     ].map((item) => (
                       <motion.div
                         key={item.step}
@@ -292,10 +371,14 @@ const BookCallModal = ({ isOpen, onClose }) => {
                             name="fullName"
                             value={formData.fullName}
                             onChange={handleChange}
-                            required
-                            className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:outline-none focus:border-primary text-light"
-                            placeholder="John Doe"
+                            className={`w-full px-4 py-2 rounded-lg bg-white/5 border ${
+                              errors.fullName ? 'border-red-500' : 'border-white/10'
+                            } focus:outline-none focus:border-primary text-light placeholder:text-light/40`}
+                            placeholder="Mahdi Hasan"
                           />
+                          {errors.fullName && (
+                            <p className="text-red-500 text-xs mt-1">{errors.fullName}</p>
+                          )}
                         </div>
                         <div>
                           <label className="block text-light/70 text-sm mb-1">Email *</label>
@@ -304,21 +387,30 @@ const BookCallModal = ({ isOpen, onClose }) => {
                             name="email"
                             value={formData.email}
                             onChange={handleChange}
-                            required
-                            className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:outline-none focus:border-primary text-light"
-                            placeholder="you@example.com"
+                            className={`w-full px-4 py-2 rounded-lg bg-white/5 border ${
+                              errors.email ? 'border-red-500' : 'border-white/10'
+                            } focus:outline-none focus:border-primary text-light placeholder:text-light/40`}
+                            placeholder="contacthasan09@gmail.com"
                           />
+                          {errors.email && (
+                            <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+                          )}
                         </div>
                         <div>
-                          <label className="block text-light/70 text-sm mb-1">Phone Number</label>
+                          <label className="block text-light/70 text-sm mb-1">Phone Number *</label>
                           <input
                             type="tel"
                             name="phone"
                             value={formData.phone}
                             onChange={handleChange}
-                            className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:outline-none focus:border-primary text-light"
-                            placeholder="+1 234 567 890"
+                            className={`w-full px-4 py-2 rounded-lg bg-white/5 border ${
+                              errors.phone ? 'border-red-500' : 'border-white/10'
+                            } focus:outline-none focus:border-primary text-light placeholder:text-light/40`}
+                            placeholder="+880xxxxxxxxx"
                           />
+                          {errors.phone && (
+                            <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
+                          )}
                         </div>
                       </>
                     )}
@@ -326,50 +418,104 @@ const BookCallModal = ({ isOpen, onClose }) => {
                     {step === 2 && (
                       <>
                         <div>
-                          <label className="block text-light/70 text-sm mb-1">Business Name *</label>
+                          <label className="block text-light/70 text-sm mb-1">Company/Project Name</label>
                           <input
                             type="text"
-                            name="businessName"
-                            value={formData.businessName}
+                            name="companyName"
+                            value={formData.companyName}
                             onChange={handleChange}
-                            required
-                            className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:outline-none focus:border-primary text-light"
-                            placeholder="Your Company Name"
+                            className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:outline-none focus:border-primary text-light placeholder:text-light/40"
+                            placeholder="Your Company or Project Name"
                           />
                         </div>
                         <div>
-                          <label className="block text-light/70 text-sm mb-1">Service Interested In</label>
+                          <label className="block text-light/70 text-sm mb-1">Project Type *</label>
                           <select
-                            name="service"
-                            value={formData.service}
+                            name="projectType"
+                            value={formData.projectType}
                             onChange={handleChange}
-                            className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:outline-none focus:border-primary text-light"
+                            className={`w-full px-4 py-2 rounded-lg bg-white/5 border ${
+                              errors.projectType ? 'border-red-500' : 'border-white/10'
+                            } focus:outline-none focus:border-primary text-light appearance-none`}
+                            style={{ color: '#e5e7eb' }}
                           >
-                            <option value="">Select Your Service</option>
-                            {services.map(s => <option key={s} value={s}>{s}</option>)}
+                            <option value="" className="bg-dark text-light/70">Select Project Type</option>
+                            {projectTypes.map((type) => (
+                              <option key={type} value={type} className="bg-dark text-light">
+                                {type}
+                              </option>
+                            ))}
                           </select>
+                          {errors.projectType && (
+                            <p className="text-red-500 text-xs mt-1">{errors.projectType}</p>
+                          )}
                         </div>
                         <div>
-                          <label className="block text-light/70 text-sm mb-1">Monthly Ad Budget</label>
+                          <label className="block text-light/70 text-sm mb-1">Budget Range</label>
                           <select
                             name="budget"
                             value={formData.budget}
                             onChange={handleChange}
-                            className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:outline-none focus:border-primary text-light"
+                            className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:outline-none focus:border-primary text-light appearance-none"
+                            style={{ color: '#e5e7eb' }}
                           >
-                            {budgets.map(b => <option key={b} value={b}>{b}</option>)}
+                            <option value="" className="bg-dark text-light/70">Select Budget Range</option>
+                            {budgets.map((budget) => (
+                              <option key={budget} value={budget} className="bg-dark text-light">
+                                {budget}
+                              </option>
+                            ))}
                           </select>
                         </div>
                         <div>
-                          <label className="block text-light/70 text-sm mb-1">Message</label>
+                          <label className="block text-light/70 text-sm mb-1">Timeline</label>
+                          <select
+                            name="timeline"
+                            value={formData.timeline}
+                            onChange={handleChange}
+                            className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:outline-none focus:border-primary text-light appearance-none"
+                            style={{ color: '#e5e7eb' }}
+                          >
+                            <option value="" className="bg-dark text-light/70">Select Expected Timeline</option>
+                            {timelines.map((timeline) => (
+                              <option key={timeline} value={timeline} className="bg-dark text-light">
+                                {timeline}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-light/70 text-sm mb-1">Preferred Contact Method</label>
+                          <select
+                            name="contactMethod"
+                            value={formData.contactMethod}
+                            onChange={handleChange}
+                            className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:outline-none focus:border-primary text-light appearance-none"
+                            style={{ color: '#e5e7eb' }}
+                          >
+                            <option value="" className="bg-dark text-light/70">Select Contact Method</option>
+                            {contactMethods.map((method) => (
+                              <option key={method} value={method} className="bg-dark text-light">
+                                {method}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-light/70 text-sm mb-1">Project Details *</label>
                           <textarea
                             name="message"
                             value={formData.message}
                             onChange={handleChange}
                             rows="3"
-                            className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:outline-none focus:border-primary text-light resize-none"
-                            placeholder="Tell me more about your idea"
+                            className={`w-full px-4 py-2 rounded-lg bg-white/5 border ${
+                              errors.message ? 'border-red-500' : 'border-white/10'
+                            } focus:outline-none focus:border-primary text-light placeholder:text-light/40 resize-none`}
+                            placeholder="Tell me about your project idea, requirements, features, and any specific technologies you prefer..."
                           />
+                          {errors.message && (
+                            <p className="text-red-500 text-xs mt-1">{errors.message}</p>
+                          )}
                         </div>
                       </>
                     )}
@@ -382,9 +528,11 @@ const BookCallModal = ({ isOpen, onClose }) => {
                             <p><span className="text-light/50">Name:</span> {formData.fullName}</p>
                             <p><span className="text-light/50">Email:</span> {formData.email}</p>
                             <p><span className="text-light/50">Phone:</span> {formData.phone || 'Not provided'}</p>
-                            <p><span className="text-light/50">Business:</span> {formData.businessName}</p>
-                            <p><span className="text-light/50">Service:</span> {formData.service || 'Not selected'}</p>
+                            <p><span className="text-light/50">Company:</span> {formData.companyName || 'Not provided'}</p>
+                            <p><span className="text-light/50">Project Type:</span> {formData.projectType || 'Not selected'}</p>
                             <p><span className="text-light/50">Budget:</span> {formData.budget || 'Not specified'}</p>
+                            <p><span className="text-light/50">Timeline:</span> {formData.timeline || 'Not specified'}</p>
+                            <p><span className="text-light/50">Contact Method:</span> {formData.contactMethod || 'Not specified'}</p>
                           </div>
                         </div>
                       </div>
@@ -396,7 +544,7 @@ const BookCallModal = ({ isOpen, onClose }) => {
                           type="button"
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          onClick={() => setStep(step - 1)}
+                          onClick={handleBack}
                           className="flex-1 px-4 py-2 rounded-lg glass-effect text-light font-medium"
                         >
                           Back
@@ -407,7 +555,7 @@ const BookCallModal = ({ isOpen, onClose }) => {
                           type="button"
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          onClick={() => setStep(step + 1)}
+                          onClick={handleNext}
                           className="flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-primary to-secondary text-white font-medium flex items-center justify-center gap-2"
                         >
                           Continue <FiArrowRight />

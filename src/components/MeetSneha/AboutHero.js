@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, useAnimation, useMotionValue, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { FiAward, FiTrendingUp, FiUsers, FiStar, FiHeart, FiBriefcase } from 'react-icons/fi';
+import { FiAward, FiTrendingUp, FiUsers, FiStar, FiHeart, FiBriefcase, FiCode, FiSmartphone } from 'react-icons/fi';
 import Button from '../Common/Button';
 
 const AboutHero = () => {
@@ -79,18 +79,45 @@ const AboutHero = () => {
     },
   };
 
+  // Animated heading text split into words
+  const headingText = "Turning Ideas Into Digital Reality";
+  const headingWords = headingText.split(" ");
+
+  // Word animation variants
+  const wordVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: 50,
+      rotateX: -90,
+      scale: 0.5
+    },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      rotateX: 0,
+      scale: 1,
+      transition: {
+        delay: i * 0.1,
+        duration: 0.6,
+        type: "spring",
+        stiffness: 100,
+        damping: 12
+      }
+    }),
+  };
+
   const stats = [
-    { value: '30+', label: 'Happy Clients', icon: <FiUsers />, delay: 0.8 },
-    { value: '4.8x', label: 'Avg ROAS', icon: <FiTrendingUp />, delay: 0.9 },
-    { value: '100+', label: 'Projects', icon: <FiBriefcase />, delay: 1.0 },
+    { value: '3+', label: 'Years Exp', icon: <FiBriefcase />, delay: 0.8 },
+    { value: '35+', label: 'Projects', icon: <FiCode />, delay: 0.9 },
+    { value: '25+', label: 'Clients', icon: <FiUsers />, delay: 1.0 },
     { value: '5.0', label: 'Rating', icon: <FiStar />, delay: 1.1 },
   ];
 
-  // Network profile images (easy to replace)
+  // Updated profile images - Using your local image
   const profileImages = {
-    main: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=400&fit=crop',
-    badge1: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=100&h=100&fit=crop',
-    badge2: 'https://images.unsplash.com/photo-1556761175-4b46a572b786?w=100&h=100&fit=crop',
+    main: '/images/profile.JPG',  // YOUR LOCAL IMAGE
+    badge1: '/images/profile.JPG',  // Same image for badge
+    badge2: '/images/profile.JPG',  // Same image for badge
   };
 
   return (
@@ -146,31 +173,57 @@ const AboutHero = () => {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                 </span>
-                YOUR GROWTH PARTNER
+                CREATIVE DEVELOPER & DESIGNER
               </span>
             </motion.div>
 
-            <motion.h1 variants={itemVariants} className="text-4xl md:text-6xl font-display font-bold text-light mb-6 leading-tight">
-              Scaling{' '}
-              <motion.span
-                className="gradient-text inline-block"
-                animate={{ scale: [1, 1.05, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                Together.
-              </motion.span>
-            </motion.h1>
+            {/* Animated Heading with Word-by-Word Effect */}
+            <div className="mb-6 overflow-visible">
+              <div className="flex flex-wrap gap-x-3 gap-y-2">
+                {headingWords.map((word, index) => (
+                  <motion.span
+                    key={index}
+                    custom={index}
+                    variants={wordVariants}
+                    initial="hidden"
+                    animate={controls}
+                    className="text-4xl md:text-6xl font-display font-bold inline-block"
+                    whileHover={{
+                      scale: 1.05,
+                      y: -5,
+                      transition: { type: "spring", stiffness: 300 }
+                    }}
+                  >
+                    {word}
+                    {index === 2 && (
+                      <motion.span
+                        className="gradient-text"
+                        animate={{ 
+                          backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                        }}
+                        transition={{ duration: 3, repeat: Infinity }}
+                        style={{
+                          backgroundSize: '200% 200%',
+                        }}
+                      >
+                        {' '}
+                      </motion.span>
+                    )}
+                  </motion.span>
+                ))}
+              </div>
+            </div>
 
             <motion.p variants={itemVariants} className="text-lg md:text-xl text-light/70 mb-8 leading-relaxed">
-              Turning your marketing budget into a predictable success story with transparency, care, and precision.
+              With over 3 years of experience in full-stack and cross-platform app development, I've had the privilege of working with startups, agencies, and established brands to bring their digital visions to life across web, mobile, and desktop platforms.
             </motion.p>
 
             <motion.div variants={itemVariants} className="flex flex-wrap gap-4 mb-8">
               <Button variant="primary" size="large">
-                Start Your Growth Audit
+                View My Work
               </Button>
               <Button variant="outline" size="large">
-                Watch Success Stories
+                Download Resume
               </Button>
             </motion.div>
 
@@ -247,11 +300,15 @@ const AboutHero = () => {
                   )}
                   <img
                     src={profileImages.main}
-                    alt="Sneha Anindya - Performance Marketing Expert"
+                    alt="Mahdi Hasan - Full-Stack Developer"
                     className={`w-full h-full object-cover transition-all duration-700 ${
                       imageLoaded ? 'scale-100' : 'scale-110'
                     }`}
                     onLoad={() => setImageLoaded(true)}
+                    onError={(e) => {
+                      console.log("Image failed to load, using fallback");
+                      e.target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop';
+                    }}
                     style={{ objectPosition: 'top center' }}
                   />
                   
@@ -261,7 +318,7 @@ const AboutHero = () => {
                     whileHover={{ opacity: 1 }}
                     className="absolute inset-0 bg-gradient-to-t from-dark/80 via-transparent to-transparent flex items-end justify-center pb-6"
                   >
-                    <span className="text-white font-semibold text-sm">✨ Digital Growth Expert</span>
+                    <span className="text-white font-semibold text-sm">✨ Full-Stack Developer</span>
                   </motion.div>
                 </div>
               </div>
@@ -281,8 +338,8 @@ const AboutHero = () => {
                   <FiAward className="text-white text-lg" />
                 </div>
                 <div>
-                  <p className="text-xs text-light/50">Certified Expert</p>
-                  <p className="text-sm font-bold gradient-text">Meta & Google</p>
+                  <p className="text-xs text-light/50">Expert Developer</p>
+                  <p className="text-sm font-bold gradient-text">Full-Stack</p>
                 </div>
               </div>
             </motion.div>
@@ -344,7 +401,7 @@ const AboutHero = () => {
                   </linearGradient>
                 </defs>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-xs font-bold text-primary">85%</span>
+                  <span className="text-xs font-bold text-primary">35+</span>
                 </div>
               </div>
             </motion.div>
@@ -358,7 +415,7 @@ const AboutHero = () => {
             >
               <div className="flex items-center gap-1">
                 <span className="text-yellow-400 text-sm">★★★★★</span>
-                <span className="text-xs text-light/60">(50+ reviews)</span>
+                <span className="text-xs text-light/60">(25+ reviews)</span>
               </div>
             </motion.div>
           </motion.div>

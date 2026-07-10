@@ -12,8 +12,10 @@ const HomePage = () => {
   return (
     <>
       <Helmet>
-        <title>Sneha Anindya - Result-Focused Paid Media Specialist | Meta & Google Ads Expert</title>
-        <meta name="description" content="Scale your brand with data-driven Meta and Google Ads. 4.8x average ROAS. Certified professional helping businesses maximize ROI through strategic paid media." />
+        <title>Mahdi Hasan - Creative Full-Stack Developer | Flutter & React Expert</title>
+        <meta name="description" content="Creative Full-Stack Developer specializing in Flutter, React, and Node.js. 35+ projects delivered, 100% client satisfaction. Let's bring your digital vision to life." />
+        <meta name="keywords" content="Full-Stack Developer, Flutter Developer, React Developer, Node.js, Mobile App Development, Web Development, Bangladesh" />
+        <meta name="author" content="Mahdi Hasan" />
       </Helmet>
       <Hero />
       <Stats />
