@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { FiMenu, FiX, FiHome, FiFolder, FiUser, FiBookOpen, FiMail, FiArrowRight, FiAward } from 'react-icons/fi';
+import { FiMenu, FiX, FiHome, FiFolder, FiUser, FiBookOpen, FiMail, FiBriefcase, FiArrowRight, FiStar } from 'react-icons/fi';
 import BookCallModal from '../Common/BookCallModal';
 
 const Navbar = () => {
@@ -13,6 +13,7 @@ const Navbar = () => {
   const location = useLocation();
   const { scrollY } = useScroll();
   const navbarOpacity = useTransform(scrollY, [0, 100], [0.95, 1]);
+  const navbarBlur = useTransform(scrollY, [0, 100], [8, 16]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,12 +24,11 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { path: '/', name: 'Home', icon: <FiHome /> },
-    { path: '/portfolio', name: 'Portfolio', icon: <FiFolder /> },
-    { path: '/meet-mahdi', name: 'Meet Mahdi', icon: <FiUser /> },
-    { path: '/education', name: 'Education', icon: <FiAward /> },
-    { path: '/articles', name: 'Articles', icon: <FiBookOpen /> },
-    { path: '/contact', name: 'Contact', icon: <FiMail /> },
+    { path: '/', name: 'Home', icon: <FiHome />, glow: 'from-blue-500 to-cyan-500' },
+    { path: '/portfolio', name: 'Portfolio', icon: <FiFolder />, glow: 'from-purple-500 to-pink-500' },
+    { path: '/meet-mahdi', name: 'Meet Mahdi', icon: <FiUser />, glow: 'from-green-500 to-emerald-500' },
+    { path: '/articles', name: 'Articles', icon: <FiBookOpen />, glow: 'from-orange-500 to-red-500' },
+    { path: '/contact', name: 'Contact', icon: <FiMail />, glow: 'from-teal-500 to-cyan-500' },
   ];
 
   // Eye-catching animations for Hire Me button
@@ -54,6 +54,7 @@ const Navbar = () => {
       transition: {
         duration: 1.5,
         repeat: Infinity,
+        repeatType: "loop",
         ease: "easeInOut"
       }
     }
@@ -67,7 +68,7 @@ const Navbar = () => {
       transition: {
         duration: 0.6,
         repeat: Infinity,
-        repeatType: "reverse"
+        repeatType: "loop"
       }
     }
   };
@@ -79,6 +80,7 @@ const Navbar = () => {
       transition: {
         duration: 1.5,
         repeat: Infinity,
+        repeatType: "loop",
         ease: "easeInOut"
       }
     }
@@ -160,63 +162,64 @@ const Navbar = () => {
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-8">
-              {navLinks.map((link, index) => {
-                const isActive = location.pathname === link.path;
-                return (
-                  <motion.div
-                    key={link.path}
-                    custom={index}
-                    variants={navLinkVariants}
-                    initial="initial"
-                    animate="animate"
-                    whileHover="hover"
+              {navLinks.map((link, index) => (
+                <motion.div
+                  key={link.path}
+                  custom={index}
+                  variants={navLinkVariants}
+                  initial="initial"
+                  animate="animate"
+                  whileHover="hover"
+                >
+                  <NavLink
+                    to={link.path}
+                    className={({ isActive }) =>
+                      `relative text-light/80 hover:text-light transition-all duration-300 group ${
+                        isActive ? 'text-primary' : ''
+                      }`
+                    }
                   >
-                    <NavLink
-                      to={link.path}
-                      className={({ isActive }) =>
-                        `relative text-light/80 hover:text-light transition-all duration-300 group text-sm lg:text-base ${
-                          isActive ? 'text-primary' : ''
-                        }`
-                      }
-                    >
-                      <span className="flex items-center gap-1 lg:gap-2">
-                        <motion.span
-                          whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          {link.icon}
-                        </motion.span>
-                        {link.name}
-                      </span>
-                      
-                      {/* Active indicator with glow */}
-                      {isActive && (
-                        <motion.div
-                          layoutId="activeNav"
-                          className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-secondary rounded-full"
-                          transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                        />
-                      )}
-                      
-                      {/* Hover glow effect */}
-                      <motion.div
-                        className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary"
-                        whileHover={{ width: '100%' }}
-                        transition={{ duration: 0.3 }}
-                      />
-                      
-                      {/* Floating particle on hover */}
+                    <span className="flex items-center gap-1 lg:gap-2 text-sm lg:text-base">
                       <motion.span
-                        className="absolute -top-6 left-1/2 text-primary text-xs opacity-0 pointer-events-none"
-                        whileHover={{ opacity: 1, y: -5 }}
-                        transition={{ duration: 0.2 }}
+                        whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
+                        transition={{ duration: 0.3 }}
                       >
-                        ✦
+                        {link.icon}
                       </motion.span>
+                      {link.name}
+                    </span>
+                    
+                    {/* Active indicator with glow */}
+                    <NavLink to={link.path}>
+                      {({ isActive }) => (
+                        isActive && (
+                          <motion.div
+                            layoutId="activeNav"
+                            className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-secondary rounded-full"
+                            transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                          />
+                        )
+                      )}
                     </NavLink>
-                  </motion.div>
-                );
-              })}
+                    
+                    {/* Hover glow effect */}
+                    <motion.div
+                      className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary"
+                      whileHover={{ width: '100%' }}
+                      transition={{ duration: 0.3 }}
+                    />
+                    
+                    {/* Floating particle on hover */}
+                    <motion.span
+                      className="absolute -top-6 left-1/2 text-primary text-xs opacity-0 pointer-events-none"
+                      whileHover={{ opacity: 1, y: -5 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      ✦
+                    </motion.span>
+                  </NavLink>
+                </motion.div>
+              ))}
               
               {/* Eye-Catching Hire Me Button */}
               <motion.div
@@ -241,6 +244,7 @@ const Navbar = () => {
                   transition={{
                     duration: 2,
                     repeat: Infinity,
+                    repeatType: "loop",
                     ease: "easeInOut"
                   }}
                   className="absolute -inset-3 rounded-full bg-gradient-to-r from-primary to-secondary opacity-20 blur-xl"
@@ -268,7 +272,7 @@ const Navbar = () => {
                   <span className="relative flex items-center gap-2 lg:gap-3 z-10">
                     <motion.span
                       animate={{ rotate: [0, 360] }}
-                      transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                      transition={{ duration: 8, repeat: Infinity, repeatType: "loop", ease: "linear" }}
                       className="text-yellow-300"
                     >
                       ✦
@@ -328,7 +332,7 @@ const Navbar = () => {
         </div>
       </motion.nav>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - Enhanced with animations */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -339,46 +343,49 @@ const Navbar = () => {
             className="fixed inset-0 z-40 glass-effect md:hidden overflow-y-auto"
             style={{ paddingTop: '80px' }}
           >
+            {/* Animated background pattern */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.05 }}
+              className="absolute inset-0 opacity-5"
+              style={{
+                backgroundImage: `url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.4"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')`
+              }}
+            />
+            
             <div className="flex flex-col items-center gap-4 p-6 relative z-10">
-              {navLinks.map((link, index) => {
-                const isActive = location.pathname === link.path;
-                return (
-                  <motion.div
-                    key={link.path}
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1, type: "spring" }}
-                    className="w-full"
+              {navLinks.map((link, index) => (
+                <motion.div
+                  key={link.path}
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1, type: "spring" }}
+                  className="w-full"
+                >
+                  <Link
+                    to={link.path}
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center justify-center gap-3 text-xl py-4 text-light/80 hover:text-light hover:bg-white/10 rounded-xl transition-all duration-300 w-full group"
                   >
-                    <Link
-                      to={link.path}
-                      onClick={() => setIsOpen(false)}
-                      className={`flex items-center justify-center gap-3 text-xl py-4 rounded-xl transition-all duration-300 w-full group ${
-                        isActive
-                          ? 'bg-primary/20 text-primary'
-                          : 'text-light/80 hover:text-light hover:bg-white/10'
-                      }`}
+                    <motion.span
+                      whileHover={{ rotate: 15, scale: 1.2 }}
+                      className="text-primary"
                     >
-                      <motion.span
-                        whileHover={{ rotate: 15, scale: 1.2 }}
-                        className="text-primary"
-                      >
-                        {link.icon}
-                      </motion.span>
-                      {link.name}
-                      <motion.span
-                        initial={{ x: -10, opacity: 0 }}
-                        whileHover={{ x: 0, opacity: 1 }}
-                        className="text-primary text-sm"
-                      >
-                        →
-                      </motion.span>
-                    </Link>
-                  </motion.div>
-                );
-              })}
+                      {link.icon}
+                    </motion.span>
+                    {link.name}
+                    <motion.span
+                      initial={{ x: -10, opacity: 0 }}
+                      whileHover={{ x: 0, opacity: 1 }}
+                      className="text-primary text-sm"
+                    >
+                      →
+                    </motion.span>
+                  </Link>
+                </motion.div>
+              ))}
               
-              {/* Mobile Hire Me Button */}
+              {/* Mobile Hire Me Button with Enhanced Animation */}
               <motion.div
                 initial={{ opacity: 0, y: 20, scale: 0.9 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -403,7 +410,7 @@ const Navbar = () => {
                   <span className="relative flex items-center justify-center gap-2 z-10">
                     <motion.span
                       animate={{ rotate: 360 }}
-                      transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                      transition={{ duration: 4, repeat: Infinity, repeatType: "loop", ease: "linear" }}
                     >
                       ✦
                     </motion.span>

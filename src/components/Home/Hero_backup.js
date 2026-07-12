@@ -105,7 +105,7 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 lg:pt-24">
-      {/* Background Video with Code Theme */}
+      {/* Background Video with Motion Effect */}
       <div className="absolute inset-0 z-0">
         <video
           ref={videoRef}
@@ -113,11 +113,10 @@ const Hero = () => {
           loop
           muted
           playsInline
-          poster="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1920&h=1080&fit=crop"
+          poster="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1920&h=1080&fit=crop"
         >
-          {/* Code-focused background videos */}
           <source 
-            src="https://assets.mixkit.co/videos/preview/mixkit-programming-background-with-code-2192-large.mp4" 
+            src="https://assets.mixkit.co/videos/preview/mixkit-digital-marketing-animation-3943-large.mp4" 
             type="video/mp4" 
           />
         </video>
@@ -125,33 +124,6 @@ const Hero = () => {
         {/* Overlay Gradients */}
         <div className="absolute inset-0 bg-gradient-to-r from-dark via-dark/80 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-dark via-transparent to-dark/50" />
-        
-        {/* Animated Code Particles Overlay */}
-        <div className="absolute inset-0 pointer-events-none opacity-10">
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0 }}
-              animate={{ 
-                opacity: [0, 0.5, 0],
-                y: [Math.random() * 100, Math.random() * 100 - 100]
-              }}
-              transition={{
-                duration: Math.random() * 5 + 3,
-                repeat: Infinity,
-                delay: Math.random() * 2
-              }}
-              className="absolute text-primary font-mono text-xs"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                fontSize: `${Math.random() * 10 + 8}px`
-              }}
-            >
-              {['{ }', '() =>', 'const', 'let', 'function', 'return', 'import', 'export', 'async', 'await', '< />', '...'][Math.floor(Math.random() * 12)]}
-            </motion.div>
-          ))}
-        </div>
         
         {/* Video Control Button */}
         <motion.button
@@ -303,7 +275,7 @@ const Hero = () => {
             </motion.div>
           </motion.div>
 
-          {/* Right Side - Image with Animation */}
+          {/* Right Side - Image with Animation - Using YOUR LOCAL IMAGE */}
           <motion.div
             variants={imageVariants}
             initial="hidden"
@@ -325,7 +297,7 @@ const Hero = () => {
               {/* Glow Effect Behind Image */}
               <div className="absolute -inset-2 sm:-inset-4 bg-gradient-to-r from-primary via-secondary to-accent rounded-full blur-xl sm:blur-2xl opacity-30 animate-pulse" />
               
-              {/* Main Image Card */}
+              {/* Main Image Card - Using your local profile.JPG */}
               <div className="relative glass-effect rounded-2xl overflow-hidden backdrop-blur-md border border-white/20 shadow-2xl max-w-[280px] sm:max-w-[350px] md:max-w-[400px] mx-auto">
                 <div className="relative">
                   {!imageLoaded && (

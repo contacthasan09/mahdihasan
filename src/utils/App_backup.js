@@ -7,7 +7,6 @@ import ScrollToTop from './components/Layout/ScrollToTop';
 import HomePage from './pages/HomePage';
 import PortfolioPage from './pages/PortfolioPage';
 import MeetSnehaPage from './pages/MeetSnehaPage';  // Use this import
-import EducationPage from './pages/EducationPage';  // Add this import
 import ArticlesPage from './pages/ArticlesPage';
 import ContactPage from './pages/ContactPage';
 import AOS from 'aos';
@@ -37,8 +36,6 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/portfolio" element={<PortfolioPage />} />
         <Route path="/meet-mahdi" element={<MeetSnehaPage />} />  {/* Use MeetSnehaPage here */}
-                <Route path="/education" element={<EducationPage />} />  {/* Add this route */}
-
         <Route path="/articles" element={<ArticlesPage />} />
         <Route path="/contact" element={<ContactPage />} />
       </Routes>
