@@ -9,7 +9,6 @@ const AboutHero = () => {
   const controls = useAnimation();
   const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageError, setImageError] = useState(false);
   
   // Mouse movement effect for 3D tilt
   const mouseX = useMotionValue(0);
@@ -114,13 +113,11 @@ const AboutHero = () => {
     { value: '5.0', label: 'Rating', icon: <FiStar />, delay: 1.1 },
   ];
 
-  // Updated profile images - with fallback handling
-  const getProfileImage = () => {
-    // Try different extensions for Vercel compatibility
-    if (imageError) {
-      return 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop';
-    }
-    return '/images/profile.jpg';
+  // Updated profile images - Using your local image
+  const profileImages = {
+    main: '/images/profile.jpg',  // YOUR LOCAL IMAGE
+    badge1: '/images/profile.jpg',  // Same image for badge
+    badge2: '/images/profile.jpg',  // Same image for badge
   };
 
   return (
@@ -294,7 +291,7 @@ const AboutHero = () => {
               {/* Main Image Container */}
               <div className="relative w-80 h-80 mx-auto rounded-full bg-gradient-to-r from-primary to-secondary p-1 shadow-2xl">
                 <div className="w-full h-full rounded-full bg-dark overflow-hidden relative">
-                  {!imageLoaded && !imageError && (
+                  {!imageLoaded && (
                     <motion.div
                       className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20"
                       animate={{ opacity: [0.5, 1, 0.5] }}
@@ -302,24 +299,15 @@ const AboutHero = () => {
                     />
                   )}
                   <img
-                    src={getProfileImage()}
+                    src={profileImages.main}
                     alt="Mahdi Hasan - Full-Stack Developer"
                     className={`w-full h-full object-cover transition-all duration-700 ${
                       imageLoaded ? 'scale-100' : 'scale-110'
                     }`}
-                    onLoad={() => {
-                      setImageLoaded(true);
-                      setImageError(false);
-                    }}
+                    onLoad={() => setImageLoaded(true)}
                     onError={(e) => {
-                      console.log("Local image failed, trying fallback...");
-                      setImageError(true);
-                      // Try alternative extension
-                      if (e.target.src.includes('profile.jpg')) {
-                        e.target.src = '/images/profile.JPG';
-                      } else if (e.target.src.includes('profile.JPG')) {
-                        e.target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop';
-                      }
+                      console.log("Image failed to load, using fallback");
+                      e.target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop';
                     }}
                     style={{ objectPosition: 'top center' }}
                   />

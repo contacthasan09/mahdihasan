@@ -10,6 +10,7 @@ const Hero = () => {
   const navigate = useNavigate();
   const [isVideoPlaying, setIsVideoPlaying] = useState(true);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     // Auto-play video when component mounts
@@ -103,6 +104,23 @@ const Hero = () => {
     }),
   };
 
+  // Try multiple image paths (for case sensitivity issues)
+  const getImageSrc = () => {
+    if (imageError) {
+      return 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop';
+    }
+    // Try different paths - Vercel/Netlify often have issues with case sensitivity
+    const paths = [
+      '/images/profile.jpg',
+      '/images/profile.JPG',
+      '/images/profile.jpeg',
+      '/images/profile.png',
+      '/images/profile.webp'
+    ];
+    // Use the first path (will be tried sequentially with onError)
+    return paths[0];
+  };
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 lg:pt-24">
       {/* Background Video with Code Theme */}
@@ -115,7 +133,6 @@ const Hero = () => {
           playsInline
           poster="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1920&h=1080&fit=crop"
         >
-          {/* Code-focused background videos */}
           <source 
             src="https://assets.mixkit.co/videos/preview/mixkit-programming-background-with-code-2192-large.mp4" 
             type="video/mp4" 
@@ -303,7 +320,7 @@ const Hero = () => {
             </motion.div>
           </motion.div>
 
-          {/* Right Side - Image with Animation */}
+          {/* Right Side - Image with Animation - Using YOUR LOCAL IMAGE */}
           <motion.div
             variants={imageVariants}
             initial="hidden"
@@ -325,20 +342,29 @@ const Hero = () => {
               {/* Glow Effect Behind Image */}
               <div className="absolute -inset-2 sm:-inset-4 bg-gradient-to-r from-primary via-secondary to-accent rounded-full blur-xl sm:blur-2xl opacity-30 animate-pulse" />
               
-              {/* Main Image Card */}
+              {/* Main Image Card - Using your local profile image */}
               <div className="relative glass-effect rounded-2xl overflow-hidden backdrop-blur-md border border-white/20 shadow-2xl max-w-[280px] sm:max-w-[350px] md:max-w-[400px] mx-auto">
                 <div className="relative">
-                  {!imageLoaded && (
+                  {!imageLoaded && !imageError && (
                     <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 animate-pulse" />
                   )}
                   <img
-                    src="/images/profile.jpg"
+                    src={getImageSrc()}
                     alt="Mahdi Hasan - Full-Stack Developer"
                     className="w-full h-auto max-h-[350px] sm:max-h-[400px] md:max-h-[450px] object-cover transition-all duration-700"
-                    onLoad={() => setImageLoaded(true)}
+                    onLoad={() => {
+                      setImageLoaded(true);
+                      setImageError(false);
+                    }}
                     onError={(e) => {
-                      console.log("Image failed to load, using fallback");
-                      e.target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop';
+                      console.log("Local image failed to load, trying fallback");
+                      setImageError(true);
+                      // Try alternative extension
+                      if (e.target.src.includes('profile.jpg')) {
+                        e.target.src = '/images/profile.JPG';
+                      } else if (e.target.src.includes('profile.JPG')) {
+                        e.target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop';
+                      }
                     }}
                     style={{ objectPosition: 'top center' }}
                   />
