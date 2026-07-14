@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { motion, useAnimation, useMotionValue, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { FiAward, FiTrendingUp, FiUsers, FiStar, FiHeart, FiBriefcase, FiCode, FiSmartphone } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
+import { FiAward, FiTrendingUp, FiUsers, FiStar, FiHeart, FiBriefcase, FiCode, FiSmartphone, FiDownload } from 'react-icons/fi';
 import Button from '../Common/Button';
 
 const AboutHero = () => {
@@ -10,6 +11,7 @@ const AboutHero = () => {
   const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const navigate = useNavigate();
   
   // Mouse movement effect for 3D tilt
   const mouseX = useMotionValue(0);
@@ -30,6 +32,22 @@ const AboutHero = () => {
     const y = e.clientY - rect.top - rect.height / 2;
     mouseX.set(x);
     mouseY.set(y);
+  };
+
+  // Navigation handlers
+  const handleViewWork = () => {
+    navigate('/portfolio');
+    window.scrollTo(0, 0);
+  };
+
+  const handleDownloadResume = () => {
+    // Create a link element
+    const link = document.createElement('a');
+    link.href = '/resume/Mahdi_Hasan_Resume.pdf'; // Path to your resume PDF
+    link.download = 'Mahdi_Hasan_Resume.pdf'; // Download filename
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const containerVariants = {
@@ -222,10 +240,10 @@ const AboutHero = () => {
             </motion.p>
 
             <motion.div variants={itemVariants} className="flex flex-wrap gap-4 mb-8">
-              <Button variant="primary" size="large">
+              <Button variant="primary" size="large" icon={<FiCode />} onClick={handleViewWork}>
                 View My Work
               </Button>
-              <Button variant="outline" size="large">
+              <Button variant="outline" size="large" icon={<FiDownload />} onClick={handleDownloadResume}>
                 Download Resume
               </Button>
             </motion.div>
