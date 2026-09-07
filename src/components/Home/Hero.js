@@ -104,21 +104,12 @@ const Hero = () => {
     }),
   };
 
-  // Try multiple image paths (for case sensitivity issues)
+  // Get the correct image path - your file is profile.jpeg
   const getImageSrc = () => {
     if (imageError) {
       return 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop';
     }
-    // Try different paths - Vercel/Netlify often have issues with case sensitivity
-    const paths = [
-      '/images/profile.jpg',
-      '/images/profile.JPG',
-      '/images/profile.jpeg',
-      '/images/profile.png',
-      '/images/profile.webp'
-    ];
-    // Use the first path (will be tried sequentially with onError)
-    return paths[0];
+    return '/images/profile.jpeg';
   };
 
   return (
@@ -320,7 +311,7 @@ const Hero = () => {
             </motion.div>
           </motion.div>
 
-          {/* Right Side - Image with Animation - Using YOUR LOCAL IMAGE */}
+          {/* Right Side - Image with Animation */}
           <motion.div
             variants={imageVariants}
             initial="hidden"
@@ -342,31 +333,35 @@ const Hero = () => {
               {/* Glow Effect Behind Image */}
               <div className="absolute -inset-2 sm:-inset-4 bg-gradient-to-r from-primary via-secondary to-accent rounded-full blur-xl sm:blur-2xl opacity-30 animate-pulse" />
               
-              {/* Main Image Card - Using your local profile image */}
-              <div className="relative glass-effect rounded-2xl overflow-hidden backdrop-blur-md border border-white/20 shadow-2xl max-w-[280px] sm:max-w-[350px] md:max-w-[400px] mx-auto">
-                <div className="relative">
+              {/* Main Image Card */}
+              <div className="relative glass-effect rounded-2xl overflow-hidden backdrop-blur-md border border-white/20 shadow-2xl max-w-[280px] sm:max-w-[320px] md:max-w-[360px] lg:max-w-[400px] mx-auto">
+                <div className="relative aspect-[3/4]">
                   {!imageLoaded && !imageError && (
                     <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 animate-pulse" />
                   )}
                   <img
                     src={getImageSrc()}
                     alt="Mahdi Hasan - Full-Stack Developer"
-                    className="w-full h-auto max-h-[350px] sm:max-h-[400px] md:max-h-[450px] object-cover transition-all duration-700"
+                    className="w-full h-full object-cover object-[center_20%] transition-all duration-700"
                     onLoad={() => {
                       setImageLoaded(true);
                       setImageError(false);
+                      console.log("Image loaded successfully!");
                     }}
                     onError={(e) => {
-                      console.log("Local image failed to load, trying fallback");
+                      console.log("Image failed to load, trying fallback");
                       setImageError(true);
-                      // Try alternative extension
-                      if (e.target.src.includes('profile.jpg')) {
+                      // Try alternative extensions
+                      if (e.target.src.includes('profile.jpeg')) {
+                        e.target.src = '/images/profile.jpg';
+                      } else if (e.target.src.includes('profile.jpg')) {
                         e.target.src = '/images/profile.JPG';
                       } else if (e.target.src.includes('profile.JPG')) {
+                        e.target.src = '/images/profile.png';
+                      } else {
                         e.target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop';
                       }
                     }}
-                    style={{ objectPosition: 'top center' }}
                   />
                   
                   {/* Overlay Gradient */}
@@ -377,7 +372,7 @@ const Hero = () => {
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.8 }}
-                    className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 md:p-4 bg-gradient-to-t from-dark to-transparent"
+                    className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-5 bg-gradient-to-t from-dark to-transparent"
                   >
                     <div className="grid grid-cols-3 gap-2 sm:gap-3 md:gap-4">
                       {[
@@ -394,7 +389,7 @@ const Hero = () => {
                           >
                             {stat.value}
                           </motion.p>
-                          <p className="text-[8px] sm:text-xs text-light/60">{stat.label}</p>
+                          <p className="text-[8px] sm:text-[10px] md:text-xs text-light/60">{stat.label}</p>
                         </div>
                       ))}
                     </div>

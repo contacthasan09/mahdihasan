@@ -304,7 +304,7 @@ const Hero = () => {
                     <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 animate-pulse" />
                   )}
                   <img
-                    src="/images/profile.JPG"
+                    src="/images/profile.JPEG"
                     alt="Mahdi Hasan - Full-Stack Developer"
                     className="w-full h-auto max-h-[350px] sm:max-h-[400px] md:max-h-[450px] object-cover transition-all duration-700"
                     onLoad={() => setImageLoaded(true)}

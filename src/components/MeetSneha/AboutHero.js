@@ -138,7 +138,7 @@ const AboutHero = () => {
     if (imageError) {
       return 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop';
     }
-    return '/images/profile.jpg';
+    return '/images/profile.jpeg';
   };
 
   return (
@@ -333,9 +333,9 @@ const AboutHero = () => {
                       console.log("Local image failed, trying fallback...");
                       setImageError(true);
                       // Try alternative extension
-                      if (e.target.src.includes('profile.jpg')) {
-                        e.target.src = '/images/profile.JPG';
-                      } else if (e.target.src.includes('profile.JPG')) {
+                      if (e.target.src.includes('profile.jpeg')) {
+                        e.target.src = '/images/profile.JPEG';
+                      } else if (e.target.src.includes('profile.JPEG')) {
                         e.target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop';
                       }
                     }}

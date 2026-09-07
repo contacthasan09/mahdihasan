@@ -115,9 +115,9 @@ const AboutHero = () => {
 
   // Updated profile images - Using your local image
   const profileImages = {
-    main: '/images/profile.jpg',  // YOUR LOCAL IMAGE
-    badge1: '/images/profile.jpg',  // Same image for badge
-    badge2: '/images/profile.jpg',  // Same image for badge
+    main: '/images/profile.jpeg',  // YOUR LOCAL IMAGE
+    badge1: '/images/profile.jpeg',  // Same image for badge
+    badge2: '/images/profile.jpeg',  // Same image for badge
   };
 
   return (
